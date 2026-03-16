@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+text-align:center;
+background:linear-gradient(135deg,#ff758c,#ff7eb3);
+color:white;
+overflow-x:hidden;
+overflow-y:auto;
+}
+
+/* pages */
+
+.page{
+display:none;
+min-height:100vh;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+padding:20px;
+}
+
+.active{
+display:flex;
+}
+
+/* buttons */
+
+button{
+padding:12px 25px;
+margin:10px;
+border:none;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
+background:#ff4081;
+color:white;
+}
+
+/* BOOK */
+
+.book{
+display:flex;
+width:90%;
+max-width:700px;
+height:350px;
+background:white;
+color:black;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.left{
+width:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#fff0f6;
+}
+
+.left img{
+width:90%;
+border-radius:10px;
+}
+
+.right{
+width:50%;
+padding:20px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+/* SLIDESHOW FRAME */
+
+.frame{
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+margin:20px;
+}
+
+/* slideshow images */
+
+.slide{
+display:none;
+width:70%;
+max-width:320px;
+margin:20px auto;
+border-radius:15px;
+border:6px solid white;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.show{
+display:block;
+}
+
+/* hearts */
+
+.heart{
+position:fixed;
+bottom:-20px;
+font-size:22px;
+animation:floatUp 6s linear infinite;
+}
+
+@keyframes floatUp{
+to{
+transform:translateY(-110vh);
+opacity:0;
+}
+}
+
+/* cakes */
+
+.cake{
+position:fixed;
+bottom:-20px;
+font-size:26px;
+animation:floatCake 8s linear infinite;
+}
+
+@keyframes floatCake{
+to{
+transform:translateY(-110vh) rotate(360deg);
+opacity:0;
+}
+}
+
+/* confetti */
+
+.confetti{
+position:fixed;
+width:10px;
+height:10px;
+top:-10px;
+animation:fall linear forwards;
+}
+
+@keyframes fall{
+to{
+transform:translateY(100vh) rotate(360deg);
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+
+<div class="page active" id="page1">
+
+<h2>Are you ready for your birthday surprise Harsheni? 🎁</h2>
+
+<div id="cry" style="font-size:40px"></div>
+
+<button onclick="yes()">YES</button>
+<button onclick="no()">NO</button>
+
+</div>
+
+
+<!-- PAGE 2 -->
+
+<div class="page" id="page2">
+
+<h1>🎂 Happy Birthday Harsheni 🎂</h1>
+
+<p>A special surprise is waiting for you</p>
+
+<button onclick="openBook()">Open</button>
+
+</div>
+
+
+<!-- PAGE 3 BOOK -->
+
+<div class="page" id="page3">
+
+<div class="book">
+
+<div class="left">
+<img id="bookImage" src="p1.jpeg">
+</div>
+
+<div class="right">
+
+<h2>For Harsheni 💖</h2>
+
+<p id="bookText">
+Harsheni, you are one of the most amazing people in my life.
+Your smile makes everything brighter.
+</p>
+
+</div>
+
+</div>
+
+<div>
+<button onclick="prevPage()">Prev</button>
+<button onclick="nextPage()">Next</button>
+</div>
+
+</div>
+
+
+<!-- PAGE 4 SLIDESHOW -->
+
+<div class="page" id="page4">
+
+<h2>Our Beautiful Memories 📸</h2>
+
+<div class="frame">
+
+<img src="photo1.jpeg" class="slide show">
+<img src="photo2.jpeg" class="slide">
+<img src="photo3.jpeg" class="slide">
+<img src="photo4.jpeg" class="slide">
+<img src="photo5.jpeg" class="slide">
+<img src="photo6.jpeg" class="slide">
+<img src="photo7.jpeg" class="slide">
+<img src="photo8.jpeg" class="slide">
+<img src="photo9.jpeg" class="slide">
+<img src="photo10.jpeg" class="slide">
+
+</div>
+
+<button onclick="nextSurprise()">Next Surprise</button>
+
+</div>
+
+
+<!-- PAGE 5 -->
+
+<div class="page" id="page5">
+
+<h1>🎉 Once Again Happy Birthday Harsheni 🎉</h1>
+
+<p>You deserve all the happiness in the world 💖</p>
+
+</div>
+
+
+<script>
+
+/* YES / NO */
+
+function yes(){
+document.getElementById("music").play();
+changePage("page2")
+}
+
+function no(){
+document.getElementById("cry").innerHTML="😭 Please press YES";
+}
+
+/* PAGE CHANGE */
+
+function changePage(id){
+
+document.querySelectorAll(".page").forEach(p=>{
+p.classList.remove("active")
+})
+
+document.getElementById(id).classList.add("active")
+
+startConfetti()
+
+}
+
+/* OPEN BOOK */
+
+function openBook(){
+changePage("page3")
+}
+
+/* BOOK PAGES */
+
+let bookPage=0
+
+let images=[
+"p1.jpeg",
+"p2.jpeg",
+"p3.jpeg",
+"p4.jpeg"
+]
+
+let texts=[
+
+"Harsheni, you are one of the most amazing people in my life. Your smile makes everything brighter.",
+
+"Every memory with you is special and unforgettable. Thank you for being such a wonderful friend.",
+
+"May this birthday bring you happiness, success and all the beautiful things you deserve.",
+
+"Once again Happy Birthday Harsheni! May our friendship last forever 💖"
+
+]
+
+function updateBook(){
+
+document.getElementById("bookImage").src=images[bookPage]
+document.getElementById("bookText").innerText=texts[bookPage]
+
+}
+
+function nextPage(){
+
+if(bookPage < images.length-1){
+bookPage++
+updateBook()
+}else{
+changePage("page4")
+}
+
+}
+
+function prevPage(){
+
+if(bookPage>0){
+bookPage--
+updateBook()
+}
+
+}
+
+/* SLIDESHOW */
+
+let slides=document.querySelectorAll(".slide")
+let index=0
+
+setInterval(()=>{
+
+slides.forEach(s=>s.classList.remove("show"))
+
+index++
+
+if(index>=slides.length){
+index=0
+}
+
+slides[index].classList.add("show")
+
+},2500)
+
+/* NEXT SURPRISE */
+
+function nextSurprise(){
+changePage("page5")
+}
+
+/* CONFETTI */
+
+function startConfetti(){
+
+for(let i=0;i<120;i++){
+
+let conf=document.createElement("div")
+
+conf.classList.add("confetti")
+
+conf.style.left=Math.random()*100+"vw"
+
+conf.style.backgroundColor=
+["red","yellow","blue","green","pink","purple"][Math.floor(Math.random()*6)]
+
+conf.style.animationDuration=(Math.random()*3+2)+"s"
+
+document.body.appendChild(conf)
+
+setTimeout(()=>conf.remove(),5000)
+
+}
+
+}
+
+/* HEARTS */
+
+setInterval(()=>{
+
+let heart=document.createElement("div")
+
+heart.classList.add("heart")
+
+heart.innerHTML="💖"
+
+heart.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>heart.remove(),6000)
+
+},800)
+
+/* CAKES */
+
+setInterval(()=>{
+
+let cake=document.createElement("div")
+
+cake.classList.add("cake")
+
+cake.innerHTML="🎂"
+
+cake.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(cake)
+
+setTimeout(()=>cake.remove(),8000)
+
+},1500)
+
+</script>
+
+</body>
+</html>
